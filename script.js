@@ -2,11 +2,16 @@
 
 ///////////////////////////////////////
 // Modal window
+// Todas as seleções de elemento
 
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
 const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
+const tabs = document.querySelectorAll(".operations__tab");
+const tabsContainer = document.querySelector(".operations__tab-container");
+const tabsContent = document.querySelectorAll(".operations__content");
+const nav = document.querySelector(".nav");
 
 const openModal = function (e) {
   e.preventDefault();
@@ -180,9 +185,9 @@ console.log(h1.nextElementSibling);
 console.log(h1.parentNode.children); //seleciona todos os irmãos, incluindo o h1
 
 // Builgin a tabbed componet - GUIAS
-const tabs = document.querySelectorAll(".operations__tab");
-const tabsContainer = document.querySelector(".operations__tab-container");
-const tabsContent = document.querySelectorAll(".operations__content");
+// const tabs = document.querySelectorAll(".operations__tab");
+// const tabsContainer = document.querySelector(".operations__tab-container");
+// const tabsContent = document.querySelectorAll(".operations__content");
 //vamos anexar o eventlistener no tabsContainer, pois ele é pai do tabsContent onde se encontram os botões.
 //precisaremos usar o closest method
 tabsContainer.addEventListener("click", function (e) {
@@ -204,3 +209,26 @@ tabsContainer.addEventListener("click", function (e) {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add("operations__content--active"); //irá selecionar o elemento de acordo com o data-tab clicado. No html, data-tab pode ser 1, 2 ou 3 dependendo do botão. Ao clicar add o active.
 });
+
+// Passing arguments to event handlers
+// Menu fade animation
+// Precisamos usar a delegação de funçoes para n precisar usar um eventListener para cada elemento do nav
+
+// criamos a função para refatorar o código.
+const handleHover = function (e) {
+  if (e.target.classList.contains("nav__link")) {
+    const link = e.target; //seleciona o link que o mouse passou em cima
+    const sibilings = link.closest(".nav").querySelectorAll(".nav__link"); //seleciona os irmãos mais próximos do nav__link
+    const logo = link.closest("nav").querySelector("img"); //seleciona o logo
+
+    sibilings.forEach((el) => {
+      if (el !== link) el.style.opacity = this;
+    });
+    logo.style.opacity = this; //this está relacionado ao opacity
+  }
+};
+
+// Passing "argument" into handler
+nav.addEventListener("mouseover", handleHover.bind(0.5));
+
+nav.addEventListener("mouseout", handleHover.bind(1));
