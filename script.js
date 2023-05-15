@@ -271,3 +271,26 @@ const header1Observer = new IntersectionObserver(stickyNav, {
   rootMargin: `-${navHeight}px`,
 });
 header1Observer.observe(header1);
+
+// Reveal Sections
+
+const allSection = document.querySelectorAll(".section"); //selecionou todas as section
+const revealSection = function (entries, observer) {
+  //function para revelear a seção
+  const [entry] = entries; //como tem apenas um treshold, usamos o destructring de entry para pegar entries. Assim no cl conseguimos ver as informações.
+  console.log(entries);
+
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove("section--hidden");
+  observer.unobserve(entry.target);
+};
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15, //em vez de começar no zero, começa com 15% para revelar aos poucos a seção
+});
+
+allSection.forEach(function (section) {
+  sectionObserver.observe(section); //observa section
+  section.classList.add("section--hidden");
+});
