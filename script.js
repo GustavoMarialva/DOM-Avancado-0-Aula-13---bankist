@@ -278,7 +278,7 @@ const allSection = document.querySelectorAll(".section"); //selecionou todas as 
 const revealSection = function (entries, observer) {
   //function para revelear a seção
   const [entry] = entries; //como tem apenas um treshold, usamos o destructring de entry para pegar entries. Assim no cl conseguimos ver as informações.
-  console.log(entries);
+  // console.log(entries);
 
   if (!entry.isIntersecting) return;
 
@@ -294,3 +294,28 @@ allSection.forEach(function (section) {
   sectionObserver.observe(section); //observa section
   section.classList.add("section--hidden");
 });
+
+// Loading Images
+//ajuda a melhorar o desempenho da página, pois a img é o que compromete mais.
+// no css a img em baixa resolucão recebe um blur, e no js vamos tirar essa classe para tirar o blur.
+const imgTarget = document.querySelectorAll("img[data-src]"); //seleciona apenas as imgs que tem o data-src
+
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if (!entry.isIntersecting) return;
+  //  replace src with data-src
+  entry.target.src = entry.target.dataset.src;
+  entry.target.addEventListener("load", function () {
+    entry.target.classList.remove("lazy-img"); //foi preciso usar o eventlistener, pois caso a pessoa tenha uma internet ruim, o carregamento demoraria demais.
+  });
+  observer.unobserve(entry.target);
+};
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: "200px", //irá ativar 200px antes de atingirmos o local determinado.
+});
+
+imgTarget.forEach((img) => imgObserver.observe(img));
