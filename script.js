@@ -404,3 +404,12 @@ const slider = function () {
 };
 
 slider();
+
+// DOMContentLoaded - n espera as imgs e outros recursos externos carregarem, apenas o html e JS precisam ser carregados.
+
+// document.addEventListener("DOMContentLoaded", function (e) {}); Não precisa ser usado pois colomos a tag script no final do arquivo html, ou seja, o JS será carregado após todo o html de qq maneira.
+
+// window.addEventListener('beforeunload', function(e) {
+//   e.preventDefault();
+//   e.returnValue = '';
+// }); Mostra uma msg qd o usuário tenta sair da página se ele realmente deseja sair. Precisa ser usado com cuidado e não abusar, apenas qd for realmente necessário.
